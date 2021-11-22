@@ -18,10 +18,11 @@ def transform(event):
     properties = event.getProperties()
     
     for key in properties.keys():
-        if is_camel_case(key):
-            new_key = camel_to_snake(key)
-        properties[new_key]=properties[key]
-        del properties[key]
+        #if is_camel_case(key):
+        if "_" in key:
+            new_key = snake_to_camel(key)
+            properties[new_key]=properties[key]
+            del properties[key]
     return event
 
 def camel_to_snake(str):
@@ -34,10 +35,9 @@ def camel_to_snake(str):
 			res+=(c)
 	return (res)
 
-def snake_to_camel(str):
-    for key in properties.keys():
-        temp = key.split('_')
-        newkey = temp[0] + ''.join(ele.title() for ele in temp[1:])
+def snake_to_camel(key):    
+    temp = key.split('_')
+    newkey = temp[0] + ''.join(ele.title() for ele in temp[1:])
     return newkey
 #check camel
 
