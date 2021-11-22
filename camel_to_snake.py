@@ -1,4 +1,5 @@
 from io.hevo.api import Event
+import re
 
 """
 event: each record streaming through Hevo pipeline is an event
@@ -44,7 +45,10 @@ def camel_to_snake(str):
 def is_camel_case(s):
     return s != s.lower() and s != s.upper() and "_" not in s
 
-
+def c2s(key):
+    name = key
+    name = re.sub(r'(?<!^)(?=[A-Z])', '_', name).lower()
+    return (name) 
 # tests = [
 #     "camel",
 #     "camelCase",
