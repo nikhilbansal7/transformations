@@ -1,4 +1,5 @@
 from io.hevo.api import Event
+import re
 
 """
 event: each record streaming through Hevo pipeline is an event
@@ -18,9 +19,9 @@ def transform(event):
     properties = event.getProperties()
     
     for key in properties.keys():
-        #if is_camel_case(key):
-        if "_" in key:
-            new_key = snake_to_camel(key)
+        if is_camel_case(key):
+        #if "_" in key:
+            new_key = camel_to_snake(key)
             properties[new_key]=properties[key]
             del properties[key]
     return event
@@ -35,16 +36,19 @@ def camel_to_snake(str):
 			res+=(c)
 	return (res)
 
-def snake_to_camel(key):    
-    temp = key.split('_')
-    newkey = temp[0] + ''.join(ele.title() for ele in temp[1:])
-    return newkey
+# def snake_to_camel(key):    
+#     temp = key.split('_')
+#     newkey = temp[0] + ''.join(ele.title() for ele in temp[1:])
+#     return newkey
 #check camel
 
 def is_camel_case(s):
     return s != s.lower() and s != s.upper() and "_" not in s
 
-
+def c2s(key):
+    name = key
+    name = re.sub(r'(?<!^)(?=[A-Z])', '_', name).lower()
+    return (name) 
 # tests = [
 #     "camel",
 #     "camelCase",
