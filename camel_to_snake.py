@@ -21,12 +21,6 @@ def transform(event):
             del properties[key]
     
     properties['event_type2']=event.getType('message_lists')
-    
-    #dropping events on the basis of eventName and field value
-    # if eventName == "vibenomics.impressionTracking" and properties['status'] != "confirmed":
-    #     return None
-    # else:
-    #     return event
     return event
 #check if given key is in camel case
 def is_camel_case(s):

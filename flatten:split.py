@@ -6,13 +6,15 @@ import re
 
 def transform(event):       
     properties = event.getProperties()     
-    dict_targets = select_wrap_json(event)
-    array_targets, array_obj_targets = select_wrap_arrays(event)    
+    dict_targets = select_wrap_json(event)   
     while len(dict_targets) > 0 :    
         event = unwind_json(event , dict_targets)
         dict_targets = select_wrap_json(event)
-    events_new = unwind_array(event,array_targets,array_obj_targets)
-    return events_new
+    array_targets, array_obj_targets = select_wrap_arrays(event)     
+    event = unwind_array(event,array_targets,array_obj_targets)
+    
+    #properties['count']=len(array_obj_targets)
+    return event
 
 # Function to scan the record for JSON objects and list them
 def select_wrap_json(input_event):        
@@ -97,3 +99,5 @@ def unwind_array(input_event, targets , obj_targets):
             dict_targets = select_wrap_json(event)    
     
     return events
+
+
